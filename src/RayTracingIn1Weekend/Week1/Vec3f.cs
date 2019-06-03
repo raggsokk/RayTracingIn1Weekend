@@ -15,6 +15,12 @@ namespace RayTracingIn1Weekend.Week1
         public float Y;
         public float Z;
 
+        public static readonly Vec3f Zero = new Vec3f(0.0f, 0.0f, 0.0f);
+        public static readonly Vec3f One = new Vec3f(1.0f, 1.0f, 1.0f);
+        public static readonly Vec3f UnitX = new Vec3f(1.0f, 0.0f, 0.0f);
+        public static readonly Vec3f UnitY = new Vec3f(0.0f, 1.0f, 0.0f);
+        public static readonly Vec3f UnitZ = new Vec3f(0.0f, 0.0f, 1.0f);
+
         public Vec3f(float x, float y, float z)
         {
             this.X = x;
@@ -203,6 +209,16 @@ namespace RayTracingIn1Weekend.Week1
         public static bool operator !=(Vec3f l, Vec3f r)
         {
             return l.X != r.X || l.Y != r.Y || l.Z != r.Z;
+        }
+
+        public static explicit operator Rgb3f (Vec3f v)
+        {
+            return new Rgb3f(
+                v.X,
+                v.Y,
+                v.Z
+            );
+            //return MemoryMarshal.Cast<Vec3f, Rgb3f>()
         }
     }
 }
