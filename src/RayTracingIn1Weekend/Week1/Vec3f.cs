@@ -40,8 +40,11 @@ namespace RayTracingIn1Weekend.Week1
 
         public Vec3f GetNormal()
         {
-            float k = 1.0f / MathF.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
-            return this * k;
+            var len = GetLength();
+            return this / len;
+
+            //float k = 1.0f / MathF.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
+            //return this * k;
         }
 
         public void Normalize()
