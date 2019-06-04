@@ -77,7 +77,7 @@ namespace RayTracingConsole
 
                 // convert rgb3f to bgr8
                 var slicePixels = span.Slice(sizeFileHeader + sizeInfoHeader, sizePixels);
-                FormatUtils.ConvertBGR8(img, ref slicePixels);
+                FormatUtils.ConvertBGR8(img, ref slicePixels, true);
 
                 output.Write(span);
 
