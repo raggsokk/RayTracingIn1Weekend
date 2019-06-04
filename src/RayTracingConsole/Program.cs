@@ -17,9 +17,9 @@ namespace RayTracingConsole
 
             var img = RayTrace1.Render(200, 100);
 
-            using(var f = File.OpenWrite("image.ppm"))
+            using(var f = File.OpenWrite("image.tga"))
             {
-                img.WritePpm(f);
+                img.WriteTga(f);
             }
 
         }
