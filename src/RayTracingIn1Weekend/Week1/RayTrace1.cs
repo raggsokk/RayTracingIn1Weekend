@@ -4,8 +4,22 @@ namespace RayTracingIn1Weekend.Week1
 {
     public class RayTrace1
     {
-        private static Vec3f Color (in Ray r)
+        private static bool HitSphere(Vec3f center, float radius, Ray r)
         {
+            Vec3f oc = r.Origin - center;
+
+            float a = Vec3f.Dot(r.Direction, r.Direction);
+            float b = 2.0f * Vec3f.Dot(oc, r.Direction);
+            float c = Vec3f.Dot(oc, oc) - radius * radius;
+            float discriminant = b * b - 4 * a * c;
+            return (discriminant > 0);
+        }
+
+        private static Vec3f Color (Ray r)
+        {
+            if (HitSphere(-Vec3f.UnitZ, 0.5f, r))
+                return Vec3f.UnitX;
+
             Vec3f unit_direction = r.Direction.GetNormal();
 
             float t = 0.5f * (unit_direction.Y + 1.0f);

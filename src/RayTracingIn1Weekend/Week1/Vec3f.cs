@@ -83,6 +83,16 @@ namespace RayTracingIn1Weekend.Week1
         }
 
         [DebuggerNonUserCode()]
+        public static Vec3f operator -(Vec3f v)
+        {
+            return new Vec3f(
+                -v.X,
+                -v.Y,
+                -v.Z
+            );
+        }
+
+        [DebuggerNonUserCode()]
         public static Vec3f operator +(Vec3f l, Vec3f r)
         {
             return new Vec3f(            
