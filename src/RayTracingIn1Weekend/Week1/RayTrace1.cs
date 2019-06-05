@@ -4,15 +4,32 @@ namespace RayTracingIn1Weekend.Week1
 {
     public class RayTrace1
     {
+        private static Vec3f RandomInUnitSphere(Random drand)
+        {
+            Vec3f p = Vec3f.Zero;
 
-        private static Vec3f Color(Ray r, HitableList world)
+            do
+            {
+                //var rv = new Vec3f();
+                //var rv = new Vec3f((float)drand.NextDouble(), (float)drand.NextDouble(), (float)drand.NextDouble());
+
+                p = 2.0f * new Vec3f((float)drand.NextDouble(), (float)drand.NextDouble(), (float)drand.NextDouble()) - Vec3f.One;
+            } while (p.GetLengthSquared() >= 1.0f);
+
+            return p;
+        }
+
+        private static Vec3f Color(Ray r, HitableList world, Random drand)
         {
             HitRecord record = new HitRecord();
 
-            if(world.Hit(r, 0.0f, float.MaxValue, ref record))
+            if(world.Hit(r, 0.0001f, float.MaxValue, ref record))
             {
-                Vec3f N = record.Normal;
-                return 0.5f * new Vec3f(N.X + 1, N.Y + 1, N.Z + 1);
+                Vec3f target = record.Point + record.Normal + RandomInUnitSphere(drand);
+                return 0.5f * Color(new Ray(record.Point, target - record.Point), world, drand);
+
+                //Vec3f N = record.Normal;
+                //return 0.5f * new Vec3f(N.X + 1, N.Y + 1, N.Z + 1);
             }
             else
             {
@@ -61,10 +78,12 @@ namespace RayTracingIn1Weekend.Week1
                         Ray r = cam.GetRay(u, v);
                         //Vec3f p = r.PointAtParameter(2.0f); // still not used.
 
-                        col += Color(r, world);
+                        col += Color(r, world, drand);
                     }
 
                     col /= (float)samples;
+                    // gamma correction ??
+                    col = new Vec3f(MathF.Sqrt(col.X), MathF.Sqrt(col.Y), MathF.Sqrt(col.Z));
                     img.Pixels[cur++] = (Rgb3f)col;
 
                     //img.Pixels[cur++] = new Rgb3f() { R = r, G = g, B = b };
