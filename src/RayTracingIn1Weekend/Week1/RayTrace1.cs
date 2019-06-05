@@ -31,16 +31,19 @@ namespace RayTracingIn1Weekend.Week1
             img.Width = width;
             img.Height = height;
             img.Pixels = new Rgb3f[width * height];
+            int samples = 100;
 
-            Vec3f lower_left_corner = new Vec3f(-2.0f, -1.0f, -1.0f);
-            Vec3f horizontal = new Vec3f(4.0f, 0.0f, 0.0f);
-            Vec3f vertical = new Vec3f(0.0f, 2.0f, 0.0f);
-            Vec3f origin = new Vec3f(0.0f, 0.0f, 0.0f);
+            //Vec3f lower_left_corner = new Vec3f(-2.0f, -1.0f, -1.0f);
+            //Vec3f horizontal = new Vec3f(4.0f, 0.0f, 0.0f);
+            //Vec3f vertical = new Vec3f(0.0f, 2.0f, 0.0f);
+            //Vec3f origin = new Vec3f(0.0f, 0.0f, 0.0f);
 
             var world = new HitableList(
                 new Sphere(new Vec3f(0f, 0f, -1f), 0.5f),
                 new Sphere(new Vec3f(0, -100.5f, -1f), 100)
                 ) ;
+            var cam = new Camera();
+            var drand = new Random();
 
             int cur = 0;
 
@@ -48,15 +51,20 @@ namespace RayTracingIn1Weekend.Week1
             {
                 for (int i = 0; i < width; i++)
                 {
-                    float u = (float)i / (float)width;
-                    float v = (float)j / (float)height;
+                    Vec3f col = Vec3f.Zero;
 
-                    Ray r = new Ray(origin, lower_left_corner + u * horizontal + v * vertical);
+                    for(int s = 0; s < samples; s++)
+                    {
+                        float u = (float)(i + drand.NextDouble()) / (float)width;
+                        float v = (float)(j + drand.NextDouble()) / (float)height;
 
-                    //Vec3f p = r.PointAtParameter(2.0f);
+                        Ray r = cam.GetRay(u, v);
+                        //Vec3f p = r.PointAtParameter(2.0f); // still not used.
 
-                    Vec3f col = Color(r, world);
+                        col += Color(r, world);
+                    }
 
+                    col /= (float)samples;
                     img.Pixels[cur++] = (Rgb3f)col;
 
                     //img.Pixels[cur++] = new Rgb3f() { R = r, G = g, B = b };
