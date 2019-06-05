@@ -38,8 +38,6 @@ namespace RayTracingIn1Weekend.Week1
             }
 
             return flagHitAnything;
-
-            //throw new NotImplementedException();
         }
     }
 }

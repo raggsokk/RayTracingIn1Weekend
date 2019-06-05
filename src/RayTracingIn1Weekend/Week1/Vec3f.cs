@@ -233,5 +233,32 @@ namespace RayTracingIn1Weekend.Week1
             );
             //return MemoryMarshal.Cast<Vec3f, Rgb3f>()
         }
+
+        public override bool Equals(object obj)
+        {            
+            if (obj is Vec3f v)
+                return this == v;
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return (X, Y, Z).GetHashCode();
+            //unchecked
+            //{
+            //    int hash = 17;
+            //    hash = hash * 23 + X.GetHashCode();
+            //    hash = hash * 23 + Y.GetHashCode();
+            //    hash = hash * 23 + Z.GetHashCode();
+
+            //    return hash;
+            //}
+        }
+
+        public override string ToString()
+        {
+            return $"[{X}, {Y}, {Z}]";
+        }
     }
 }

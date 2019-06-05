@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Diagnostics;
 
 using RayTracingIn1Weekend;
 using RayTracingIn1Weekend.Week1;
@@ -13,15 +14,32 @@ namespace RayTracingConsole
     {
         static void Main(string[] args)
         {
-            //TODO: Handle argument parsing before calling render etc.            
+            //TODO: Handle argument parsing before calling render etc.
 
-            var img = RayTrace1.Render(200, 100);
+            // parameters to given by arguments later.
+            var width = 200;
+            var height = 100;
+            var output = "image.bmp";
+            Func<RayImage, Stream, bool> encoder = (r, s) => r.WriteBmp(s);
 
-            using(var f = File.OpenWrite("image.bmp"))
+
+            // code.
+            var watch = new Stopwatch();
+            watch.Start();
+
+            // render.
+            var img = RayTrace1.Render(width, height);
+
+            watch.Stop();
+
+            using(var f = File.OpenWrite(output))
             {
-                img.WriteBmp(f);
+                //img.WriteBmp(f);
+                encoder(img, f);
             }
 
+            // done message.
+            Console.WriteLine($"Image '{output}' rendered in {watch.ElapsedMilliseconds}ms.");
         }
     }
 }

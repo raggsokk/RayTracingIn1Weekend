@@ -4,38 +4,6 @@ namespace RayTracingIn1Weekend.Week1
 {
     public class RayTrace1
     {
-        //private static float HitSphere(Vec3f center, float radius, Ray r)
-        //{
-        //    Vec3f oc = r.Origin - center;
-
-        //    float a = Vec3f.Dot(r.Direction, r.Direction);
-        //    float b = 2.0f * Vec3f.Dot(oc, r.Direction);
-        //    float c = Vec3f.Dot(oc, oc) - radius * radius;
-        //    float discriminant = b * b - 4 * a * c;
-
-        //    if (discriminant < 0)
-        //        return -1.0f;
-        //    else
-        //        //return Vec3f.UnitX;
-        //        return (-b - MathF.Sqrt(discriminant)) / (2.0f * a);
-        //    //return (discriminant > 0);
-        //}
-
-        //private static Vec3f Color (Ray r)
-        //{
-        //    float t = HitSphere(-Vec3f.UnitZ, 0.5f, r);
-
-        //    if(t > 0.0f)
-        //    {
-        //        Vec3f N = (r.PointAtParameter(t) - (-Vec3f.UnitZ)).GetNormal();
-        //        return 0.5f * new Vec3f(N.X + 1, N.Y + 1, N.Z + 1);
-        //    }
-
-        //    Vec3f unit_direction = r.Direction.GetNormal();
-        //    t = 0.5f * (unit_direction.Y + 1.0f);
-
-        //    return (1.0f - t) * Vec3f.One + t * (new Vec3f(0.5f, 0.7f, 1.0f));
-        //}
 
         private static Vec3f Color(Ray r, HitableList world)
         {
@@ -54,7 +22,6 @@ namespace RayTracingIn1Weekend.Week1
                 return (1.0f - t) * Vec3f.One + t * (new Vec3f(0.5f, 0.7f, 1.0f));
 
             }
-            //throw new NotImplementedException();
         }
 
         public static RayImage Render(int width, int height)
