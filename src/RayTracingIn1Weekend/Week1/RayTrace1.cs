@@ -63,20 +63,23 @@ namespace RayTracingIn1Weekend.Week1
             //Vec3f vertical = new Vec3f(0.0f, 2.0f, 0.0f);
             //Vec3f origin = new Vec3f(0.0f, 0.0f, 0.0f);
 
-            //var world = new HitableList(
-            //    new Sphere(new Vec3f(0f, 0f, -1f), 0.5f, new Lambertian(new Vec3f(0.1f, 0.2f, 0.5f))),
-            //    new Sphere(new Vec3f(0, -100.5f, -1f), 100, new Lambertian(new Vec3f(0.8f, 0.8f, 0.0f))),
-            //    new Sphere(new Vec3f(1f, 0f, -1f), 0.5f, new Metal(new Vec3f(0.8f, 0.6f, 0.2f), 0.0f)),
-            //    new Sphere(new Vec3f(-1f, 0f, -1f), 0.5f, new Dielectric(1.5f)),
-            //    new Sphere(new Vec3f(-1f, 0f, -1f), -0.45f, new Dielectric(1.5f))
-            //    ) ;
-            float R = MathF.Cos(MathF.PI / 4);
-            var cam = new Camera(90, (float)width / (float)height);
-
             var world = new HitableList(
-                    new Sphere(new Vec3f(-R, 0, -1), R, new Lambertian(Vec3f.UnitZ)),
-                    new Sphere(new Vec3f( R, 0,-1), R, new Lambertian(Vec3f.UnitX))
+                new Sphere(new Vec3f(0f, 0f, -1f), 0.5f, new Lambertian(new Vec3f(0.1f, 0.2f, 0.5f))),
+                new Sphere(new Vec3f(0, -100.5f, -1f), 100, new Lambertian(new Vec3f(0.8f, 0.8f, 0.0f))),
+                new Sphere(new Vec3f(1f, 0f, -1f), 0.5f, new Metal(new Vec3f(0.8f, 0.6f, 0.2f), 0.0f)),
+                new Sphere(new Vec3f(-1f, 0f, -1f), 0.5f, new Dielectric(1.5f)),
+                new Sphere(new Vec3f(-1f, 0f, -1f), -0.45f, new Dielectric(1.5f))
                 );
+            float R = MathF.Cos(MathF.PI / 4);
+            //var cam = new Camera(90, (float)width / (float)height);
+            var cam = new Camera(new Vec3f(-2f, 2f, 1f), -Vec3f.UnitZ, 
+                Vec3f.UnitY, 20, (float)width / (float)height);
+
+            //var world = new HitableList(
+            //        new Sphere(new Vec3f(0, -100.5f, -1f), 100, new Lambertian(new Vec3f(0.8f, 0.8f, 0.0f))),
+            //        new Sphere(new Vec3f(-R, 0, -1), R, new Lambertian(Vec3f.UnitZ)),
+            //        new Sphere(new Vec3f( R, 0,-1), R, new Lambertian(Vec3f.UnitX))
+            //    );
 
             var drand = new Random();
 
