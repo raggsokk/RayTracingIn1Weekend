@@ -6,6 +6,6 @@ namespace RayTracingIn1Weekend.Week1
 {
     public abstract class MaterialBase
     {
-        public abstract bool Scatter(Ray r, HitRecord rec, Vec3f attenuation, out Ray Scattered, Random drand);
+        public abstract bool Scatter(Ray r, HitRecord rec, out Vec3f attenuation, out Ray Scattered, Random drand);
     }
 }

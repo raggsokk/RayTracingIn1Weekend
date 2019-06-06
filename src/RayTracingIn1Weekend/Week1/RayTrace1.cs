@@ -6,13 +6,10 @@ namespace RayTracingIn1Weekend.Week1
     {
         public static Vec3f RandomInUnitSphere(Random drand)
         {
-            Vec3f p = Vec3f.Zero;
+            Vec3f p;// = Vec3f.Zero;
 
             do
             {
-                //var rv = new Vec3f();
-                //var rv = new Vec3f((float)drand.NextDouble(), (float)drand.NextDouble(), (float)drand.NextDouble());
-
                 p = 2.0f * new Vec3f((float)drand.NextDouble(), (float)drand.NextDouble(), (float)drand.NextDouble()) - Vec3f.One;
             } while (p.GetLengthSquared() >= 1.0f);
 
@@ -25,20 +22,20 @@ namespace RayTracingIn1Weekend.Week1
 
             if(world.Hit(r, 0.0001f, float.MaxValue, ref record))
             {
-                Ray scattered;
+                Ray scattered = new Ray();
                 Vec3f attenuation = Vec3f.Zero;
                 
-                if(depth < 50 && record.Material.Scatter(r, record, attenuation, out scattered, drand))
+                if(depth < 50 && record.Material.Scatter(r, record, out attenuation, out scattered, drand))
                 {
-                    return Vec3f.UnitX;
-                    //return attenuation * Color(scattered, world, depth +1, drand);                    
+                    return attenuation * Color(scattered, world, depth +1, drand);
                 }
                 else {
                     return Vec3f.Zero;
                 }
+
+                // last chapters color code.
                 //Vec3f target = record.Point + record.Normal + RandomInUnitSphere(drand);
                 //return 0.5f * Color(new Ray(record.Point, target - record.Point), world, drand);
-e
                 //Vec3f N = record.Normal;
                 //return 0.5f * new Vec3f(N.X + 1, N.Y + 1, N.Z + 1);
             }

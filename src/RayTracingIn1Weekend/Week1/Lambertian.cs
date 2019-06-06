@@ -16,7 +16,7 @@ namespace RayTracingIn1Weekend.Week1
             this.Albedo = a;
         }
 
-        public override bool Scatter(Ray r, HitRecord rec, Vec3f attenuation, out Ray Scattered, Random drand)
+        public override bool Scatter(Ray r, HitRecord rec, out Vec3f attenuation, out Ray Scattered, Random drand)
         {
             Vec3f target = rec.Point + rec.Normal + RayTrace1.RandomInUnitSphere(drand);
             Scattered = new Ray(rec.Point, target - rec.Point);
@@ -24,10 +24,6 @@ namespace RayTracingIn1Weekend.Week1
             attenuation = Albedo;
 
             return true;
-
-            //throw new NotImplementedException();
         }
-
-
     }
 }
