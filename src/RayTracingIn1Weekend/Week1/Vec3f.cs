@@ -90,6 +90,23 @@ namespace RayTracingIn1Weekend.Week1
             return v - 2 * Dot(v,n) * n;
         }
 
+        public static bool Refract(Vec3f v, Vec3f n, float ni_over_nt, out Vec3f refracted)
+        {
+            Vec3f uv = v.GetNormal(); //TODO: Verify unit_vector.
+            float dt = Dot(uv, n);
+            float discriminant = 1f - ni_over_nt * ni_over_nt * (1f - dt * dt);
+            if (discriminant > 0)
+            {
+                refracted = ni_over_nt * (uv - n * dt) - n * MathF.Sqrt(discriminant);
+                return true;
+            }
+            else
+            {
+                refracted = Vec3f.Zero;
+                return false;
+            }
+        }
+
         [DebuggerNonUserCode()]
         public static Vec3f operator -(Vec3f v)
         {

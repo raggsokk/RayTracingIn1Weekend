@@ -64,10 +64,10 @@ namespace RayTracingIn1Weekend.Week1
             //Vec3f origin = new Vec3f(0.0f, 0.0f, 0.0f);
 
             var world = new HitableList(
-                new Sphere(new Vec3f(0f, 0f, -1f), 0.5f, new Lambertian(new Vec3f(0.8f, 0.3f, 0.3f))),
+                new Sphere(new Vec3f(0f, 0f, -1f), 0.5f, new Lambertian(new Vec3f(0.1f, 0.2f, 0.5f))),
                 new Sphere(new Vec3f(0, -100.5f, -1f), 100, new Lambertian(new Vec3f(0.8f, 0.8f, 0.0f))),
-                new Sphere(new Vec3f(1f, 0f, -1f), 0.5f, new Metal(new Vec3f(0.8f, 0.6f, 0.2f), 0.3f)),
-                new Sphere(new Vec3f(-1f, 0f, -1f), 0.5f, new Metal(new Vec3f(0.8f, 0.8f, 0.8f), 1.0f))
+                new Sphere(new Vec3f(1f, 0f, -1f), 0.5f, new Metal(new Vec3f(0.8f, 0.6f, 0.2f), 0.0f)),
+                new Sphere(new Vec3f(-1f, 0f, -1f), 0.5f, new Dielectric(1.5f))
                 ) ;
             var cam = new Camera();
             var drand = new Random();
