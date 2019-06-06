@@ -85,6 +85,11 @@ namespace RayTracingIn1Weekend.Week1
             );
         }
 
+        public static Vec3f Reflect(Vec3f v, Vec3f n)
+        {
+            return v - 2 * Dot(v,n) * n;
+        }
+
         [DebuggerNonUserCode()]
         public static Vec3f operator -(Vec3f v)
         {

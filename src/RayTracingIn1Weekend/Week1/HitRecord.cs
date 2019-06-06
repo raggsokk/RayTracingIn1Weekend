@@ -13,6 +13,6 @@ namespace RayTracingIn1Weekend.Week1
         public float t;
         public Vec3f Point;
         public Vec3f Normal;
-
+        public MaterialBase Material;
     }
 }

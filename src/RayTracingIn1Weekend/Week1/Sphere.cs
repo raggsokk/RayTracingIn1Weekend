@@ -13,10 +13,13 @@ namespace RayTracingIn1Weekend.Week1
         public Vec3f Center;
         public float Radius;
 
-        public Sphere(Vec3f center, float r)
+        public MaterialBase Material;
+
+        public Sphere(Vec3f center, float r, MaterialBase m)
         {
             this.Center = center;
             this.Radius = r;
+            this.Material = m;
         }
 
         public override bool Hit(Ray r, float tMin, float tMax, ref HitRecord record)
@@ -38,6 +41,7 @@ namespace RayTracingIn1Weekend.Week1
                     record.t = temp;
                     record.Point = r.PointAtParameter(record.t);
                     record.Normal = (record.Point - Center) / Radius;
+                    record.Material = this.Material;
                     return true;
                 }
 
@@ -47,6 +51,7 @@ namespace RayTracingIn1Weekend.Week1
                     record.t = temp;
                     record.Point = r.PointAtParameter(record.t);
                     record.Normal = (record.Point - Center) / Radius;
+                    record.Material = this.Material;
                     return true;
                 }
             }

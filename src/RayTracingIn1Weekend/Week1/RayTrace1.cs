@@ -19,15 +19,26 @@ namespace RayTracingIn1Weekend.Week1
             return p;
         }
 
-        private static Vec3f Color(Ray r, HitableList world, Random drand)
+        private static Vec3f Color(Ray r, HitableList world, int depth, Random drand)
         {
             HitRecord record = new HitRecord();
 
             if(world.Hit(r, 0.0001f, float.MaxValue, ref record))
             {
-                Vec3f target = record.Point + record.Normal + RandomInUnitSphere(drand);
-                return 0.5f * Color(new Ray(record.Point, target - record.Point), world, drand);
-
+                Ray scattered;
+                Vec3f attenuation = Vec3f.Zero;
+                
+                if(depth < 50 && record.Material.Scatter(r, record, attenuation, out scattered, drand))
+                {
+                    return Vec3f.UnitX;
+                    //return attenuation * Color(scattered, world, depth +1, drand);                    
+                }
+                else {
+                    return Vec3f.Zero;
+                }
+                //Vec3f target = record.Point + record.Normal + RandomInUnitSphere(drand);
+                //return 0.5f * Color(new Ray(record.Point, target - record.Point), world, drand);
+e
                 //Vec3f N = record.Normal;
                 //return 0.5f * new Vec3f(N.X + 1, N.Y + 1, N.Z + 1);
             }
@@ -56,8 +67,10 @@ namespace RayTracingIn1Weekend.Week1
             //Vec3f origin = new Vec3f(0.0f, 0.0f, 0.0f);
 
             var world = new HitableList(
-                new Sphere(new Vec3f(0f, 0f, -1f), 0.5f),
-                new Sphere(new Vec3f(0, -100.5f, -1f), 100)
+                new Sphere(new Vec3f(0f, 0f, -1f), 0.5f, new Lambertian(new Vec3f(0.8f, 0.3f, 0.3f))),
+                new Sphere(new Vec3f(0, -100.5f, -1f), 100, new Lambertian(new Vec3f(0.8f, 0.8f, 0.0f))),
+                new Sphere(new Vec3f(1f, 0f, -1f), 0.5f, new Metal(new Vec3f(0.8f, 0.6f, 0.2f))),
+                new Sphere(new Vec3f(-1f, 0f, -1f), 0.5f, new Metal(new Vec3f(0.8f, 0.8f, 0.8f)))
                 ) ;
             var cam = new Camera();
             var drand = new Random();
@@ -78,7 +91,7 @@ namespace RayTracingIn1Weekend.Week1
                         Ray r = cam.GetRay(u, v);
                         //Vec3f p = r.PointAtParameter(2.0f); // still not used.
 
-                        col += Color(r, world, drand);
+                        col += Color(r, world, 0, drand);
                     }
 
                     col /= (float)samples;
