@@ -4,7 +4,7 @@ namespace RayTracingIn1Weekend.Week1
 {
     public class RayTrace1
     {
-        private static Vec3f RandomInUnitSphere(Random drand)
+        public static Vec3f RandomInUnitSphere(Random drand)
         {
             Vec3f p = Vec3f.Zero;
 
