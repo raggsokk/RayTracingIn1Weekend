@@ -58,10 +58,13 @@ namespace RayTracingIn1Weekend.Week1
             img.Pixels = new Rgb3f[width * height];
             int samples = 100;
 
-            //Vec3f lower_left_corner = new Vec3f(-2.0f, -1.0f, -1.0f);
-            //Vec3f horizontal = new Vec3f(4.0f, 0.0f, 0.0f);
-            //Vec3f vertical = new Vec3f(0.0f, 2.0f, 0.0f);
-            //Vec3f origin = new Vec3f(0.0f, 0.0f, 0.0f);
+            var lookFrom = new Vec3f(3f, 3f, 3f);
+            var lookAt = new Vec3f(0, 0, -1f);
+            float dist_to_focus = (lookFrom - lookAt).GetLength();
+            float aperture = 2.0f;
+
+            var cam = new Camera(lookFrom, lookAt, Vec3f.UnitY,
+                20, (float)width / (float)height, aperture, dist_to_focus);
 
             var world = new HitableList(
                 new Sphere(new Vec3f(0f, 0f, -1f), 0.5f, new Lambertian(new Vec3f(0.1f, 0.2f, 0.5f))),
@@ -70,10 +73,10 @@ namespace RayTracingIn1Weekend.Week1
                 new Sphere(new Vec3f(-1f, 0f, -1f), 0.5f, new Dielectric(1.5f)),
                 new Sphere(new Vec3f(-1f, 0f, -1f), -0.45f, new Dielectric(1.5f))
                 );
-            float R = MathF.Cos(MathF.PI / 4);
-            //var cam = new Camera(90, (float)width / (float)height);
-            var cam = new Camera(new Vec3f(-2f, 2f, 1f), -Vec3f.UnitZ, 
-                Vec3f.UnitY, 20, (float)width / (float)height);
+            //float R = MathF.Cos(MathF.PI / 4);
+            ////var cam = new Camera(90, (float)width / (float)height);
+            //var cam = new Camera(new Vec3f(-2f, 2f, 1f), -Vec3f.UnitZ, 
+            //    Vec3f.UnitY, 20, (float)width / (float)height);
 
             //var world = new HitableList(
             //        new Sphere(new Vec3f(0, -100.5f, -1f), 100, new Lambertian(new Vec3f(0.8f, 0.8f, 0.0f))),
@@ -96,7 +99,7 @@ namespace RayTracingIn1Weekend.Week1
                         float u = (float)(i + drand.NextDouble()) / (float)width;
                         float v = (float)(j + drand.NextDouble()) / (float)height;
 
-                        Ray r = cam.GetRay(u, v);
+                        Ray r = cam.GetRay(u, v, drand);
                         //Vec3f p = r.PointAtParameter(2.0f); // still not used.
 
                         col += Color(r, world, 0, drand);
