@@ -328,3 +328,13 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# Visual Studio Code Launch files
+# ignore these for now.
+.vscode/launch.json
+.vscode/tasks.json
+
+# generated images.
+*.bmp
+*.tga
+*.ppm
