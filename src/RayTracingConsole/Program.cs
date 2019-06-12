@@ -36,6 +36,16 @@ namespace RayTracingConsole
             parser.AddArgument("output", (o) => {
                 options.Output = o;
             }, 'o', false, "The file to write rendered image to. The file extension determines which format its saved as.");
+            parser.AddArgument("parallel", (p) => {
+                var s = p.ToLowerInvariant();
+                if(s == "true" || s == "yes" || s == "enable" || s == "1")
+                    options.Parallel = true;
+                else if(s == "false" || s == "no" || s == "disable" || s == "0")
+                    options.Parallel = false;
+                else
+                    throw new ArgumentException($"Failed to parse value '{p}' to either true/false");
+
+            }, null, false, "Enable or disable parallel rendering loop.");
 
             if(!parser.Parse(args))
             {
@@ -98,8 +108,12 @@ namespace RayTracingConsole
             watch.Start();
 
             // render.
+            RayImage img;
             //var img = RayTrace1.Render(options.Width, options.Height, options.Samples);
-            var img = RayTrace1.RenderParallelFor(options.Width, options.Height, options.Samples);
+            if(options.Parallel)
+                img = RayTrace1.RenderParallelFor(options.Width, options.Height, options.Samples);
+            else
+                img = RayTrace1.Render(options.Width, options.Height, options.Samples);
 
             watch.Stop();
             

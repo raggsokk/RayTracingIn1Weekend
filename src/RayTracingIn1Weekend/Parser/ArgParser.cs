@@ -229,7 +229,7 @@ namespace RayTracingIn1Weekend
                 if(argdef == null)
                 {
                     // no argument found.
-                    Console.WriteLine($"Unknown argument '{argstring}'.Exiting...");
+                    Console.WriteLine($"Unknown argument '{argstring}'. Exiting...");
                     return false;
                 }
 
@@ -238,10 +238,13 @@ namespace RayTracingIn1Weekend
                 }
                 catch(Exception e)
                 {
-                    Console.WriteLine($"Failed to call useraction on '{argstring}'. Exiting...");
-                    Console.WriteLine("Exception: {0}", e.Message);
+                    //Console.WriteLine($"Failed to call useraction on '{argstring}'. Exiting...");                    
+                    //Console.WriteLine("Exception: {0}", e.Message);
+                    Console.WriteLine($"Failed to parse argument '{argstring}'.");
+                    Console.WriteLine($"ErrorMessage: {e.Message}");
+                    //Console.WriteLine("Exitting...");
                     return false;
-                }                
+                }
             }
 
             return true;
