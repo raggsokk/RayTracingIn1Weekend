@@ -49,14 +49,14 @@ namespace RayTracingIn1Weekend.Week1
             }
         }
 
-        public static RayImage Render(int width, int height)
+        public static RayImage Render(int width, int height, int samples)
         {
             // As simple as possible code for now.
             var img = new RayImage();
             img.Width = width;
             img.Height = height;
             img.Pixels = new Rgb3f[width * height];
-            int samples = 100;
+            //int samples = 100;
 
             var lookFrom = new Vec3f(3f, 3f, 3f);
             var lookAt = new Vec3f(0, 0, -1f);

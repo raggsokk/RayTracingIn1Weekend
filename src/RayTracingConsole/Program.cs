@@ -44,6 +44,15 @@ namespace RayTracingConsole
                 Environment.Exit(1);
             }
 
+            // sanitize options.
+            // forgot to implement required in arg parser...
+            if(options.Width < 100)
+                options.Samples = 100;
+            if(options.Height < 50)
+                options.Height = 50;
+            if(options.Samples < 1)
+                options.Samples = 1;
+
             //Console.WriteLine($"W={options.Width}, H={options.Height}, S={options.Samples}, O={options.Output}");
             //Environment.Exit(0);
 
@@ -82,14 +91,14 @@ namespace RayTracingConsole
                     encoder = (r, s) => r.WriteBmp(s);
                     filename += ".bmp";
                     break;
-            }
+            }    
 
             // code.
             var watch = new Stopwatch();
             watch.Start();
 
             // render.
-            var img = RayTrace1.Render(options.Width, options.Height);
+            var img = RayTrace1.Render(options.Width, options.Height, options.Samples);
 
             watch.Stop();
             

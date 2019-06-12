@@ -13,13 +13,17 @@ namespace RayTracingBenchmark
 {
     public class Benchmark
     {
-        public int Width = 200;
-        public int Height = 100;
+        //public int Width = 200;
+        //public int Height = 100;
 
         [Benchmark(Description = "Week1")]
-        public void RenderWeek1()
+        [Arguments(100, 50, 10)]
+        [Arguments(100, 50, 50)]
+        [Arguments(200, 100, 10)]
+        [Arguments(200, 100, 50)]
+        public void RenderWeek1(int width, int height, int samples)
         {
-            var img = RayTrace1.Render(Width, Height);
+            var img = RayTrace1.Render(width, height, samples);
         }
     }
 }
