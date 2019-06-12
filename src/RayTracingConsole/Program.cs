@@ -98,7 +98,8 @@ namespace RayTracingConsole
             watch.Start();
 
             // render.
-            var img = RayTrace1.Render(options.Width, options.Height, options.Samples);
+            //var img = RayTrace1.Render(options.Width, options.Height, options.Samples);
+            var img = RayTrace1.RenderParallelFor(options.Width, options.Height, options.Samples);
 
             watch.Stop();
             

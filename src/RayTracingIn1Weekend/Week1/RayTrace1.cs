@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace RayTracingIn1Weekend.Week1
 {
@@ -113,6 +115,67 @@ namespace RayTracingIn1Weekend.Week1
                     //img.Pixels[cur++] = new Rgb3f() { R = r, G = g, B = b };
                 }
             }
+
+            return img;
+        }
+
+        public static RayImage RenderParallelFor(int width, int height, int samples)
+        {
+            // creating image and storage.
+            var img = new RayImage();
+            img.Width = width;
+            img.Height = height;
+            img.Pixels = new Rgb3f[width * height];
+
+            // setting up camera:
+            var lookFrom = new Vec3f(3f, 3f, 3f);
+            var lookAt = new Vec3f(0, 0, -1f);
+            float dist_to_focus = (lookFrom - lookAt).GetLength();
+            float aperture = 2.0f;
+
+            var cam = new Camera(lookFrom, lookAt, Vec3f.UnitY,
+                20, (float)width / (float)height, aperture, dist_to_focus);
+
+            // creating world.
+            var world = new HitableList(
+                new Sphere(new Vec3f(0f, 0f, -1f), 0.5f, new Lambertian(new Vec3f(0.1f, 0.2f, 0.5f))),
+                new Sphere(new Vec3f(0, -100.5f, -1f), 100, new Lambertian(new Vec3f(0.8f, 0.8f, 0.0f))),
+                new Sphere(new Vec3f(1f, 0f, -1f), 0.5f, new Metal(new Vec3f(0.8f, 0.6f, 0.2f), 0.0f)),
+                new Sphere(new Vec3f(-1f, 0f, -1f), 0.5f, new Dielectric(1.5f)),
+                new Sphere(new Vec3f(-1f, 0f, -1f), -0.45f, new Dielectric(1.5f))
+                );
+
+            // looping height lines.
+            Parallel.For(0, height - 1, (cur) => {
+                var j = height - cur - 1; // invert it?
+                int curLine = cur * width;
+                var drand = new Random(); // create unique random object for each thread to prevent locking.
+
+                for(int i = 0; i < width; i++)
+                {
+                    Vec3f col = Vec3f.Zero;
+
+                    for(int s = 0; s < samples; s++)
+                    {
+                        float u = (float)(i + drand.NextDouble()) / (float)width;
+                        float v = (float)(j + drand.NextDouble()) / (float)height;
+
+                        Ray r = cam.GetRay(u, v, drand);
+                        //Vec3f p = r.PointAtParameter(2.0f); // still not used.
+
+                        col += Color(r, world, 0, drand);
+                    }
+
+                    col /= (float)samples;
+
+                    col = new Vec3f(MathF.Sqrt(col.X), MathF.Sqrt(col.Y), MathF.Sqrt(col.Z));
+                    img.Pixels[curLine + i] = (Rgb3f)col;
+                    //img.Pixels[curLine + i] = new Rgb3f(0.3f, 0.4f, 0.6f);
+                }
+
+                //System.Threading.Thread.Sleep(5);
+            });
+
 
             return img;
         }
