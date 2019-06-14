@@ -110,7 +110,7 @@ namespace RayTracingIn1Weekend.Week1
             var cam = new Camera(lookFrom, lookAt, Vec3f.UnitY,
                 40, (float)width / (float)height, aperture, dist_to_focus);
 
-            var drand = new Random();
+            var drand = new Random(12345);
 
             var world = RandomScene(drand);
 
@@ -170,7 +170,7 @@ namespace RayTracingIn1Weekend.Week1
             var cam = new Camera(lookFrom, lookAt, Vec3f.UnitY,
                 40, (float)width / (float)height, aperture, dist_to_focus);
 
-            var wrand = new Random();
+            var wrand = new Random(12345);
 
             var world = RandomScene(wrand);
 
