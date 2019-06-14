@@ -33,11 +33,6 @@ namespace RayTracingIn1Weekend.Week1
                     return Vec3f.Zero;
                 }
 
-                // last chapters color code.
-                //Vec3f target = record.Point + record.Normal + RandomInUnitSphere(drand);
-                //return 0.5f * Color(new Ray(record.Point, target - record.Point), world, drand);
-                //Vec3f N = record.Normal;
-                //return 0.5f * new Vec3f(N.X + 1, N.Y + 1, N.Z + 1);
             }
             else
             {
@@ -49,42 +44,81 @@ namespace RayTracingIn1Weekend.Week1
             }
         }
 
-        public static RayImage Render(int width, int height)
+        public static HitableList RandomScene(Random drand)
+        {
+            int n = 500;
+
+            var world = new HitableList();
+
+            world.Add(new Sphere(new Vec3f(0, -1000f, 0), 1000, new Lambertian(new Vec3f(0.5f, 0.5f, 0.5f))));
+
+            int i = 1;
+            for(int a = -11; a < 11;a++)
+            {
+                for(int b = -11; b < 11;b++)
+                {
+                    float choose_mat = (float)drand.NextDouble();
+                    var center = new Vec3f(a + 0.9f * (float)drand.NextDouble(), 0.2f, b + 0.9f * (float)drand.NextDouble());
+
+                    if((center - new Vec3f(4f, 0.2f, 0)).GetLength() > 0.9f)
+                    {
+                        if(choose_mat < 0.8f) // diffuse
+                        {
+                            world.Add(new Sphere(center, 0.2f, new Lambertian(new Vec3f((float)drand.NextDouble() * (float)drand.NextDouble(),
+                                (float)drand.NextDouble() * (float)drand.NextDouble(), (float)drand.NextDouble() * (float)drand.NextDouble()))));
+                        }
+                        else if(choose_mat < 0.95f) // metal
+                        {
+                            var o = new Vec3f(
+                                0.5f * (1f + (float)drand.NextDouble()),
+                                0.5f * (1f + (float)drand.NextDouble()),
+                                0.5f * (1f + (float)drand.NextDouble())
+                                );
+                            world.Add(new Sphere(center, 0.2f, new Metal(o, 0.5f * (float)drand.NextDouble())));
+                        }
+                        else // glass
+                        {
+                            world.Add(new Sphere(center, 0.2f, new Dielectric(1.5f)));
+                        }
+                    }
+                }
+            }
+
+            world.Add(new Sphere(Vec3f.UnitY, 1.0f, new Dielectric(1.5f)));
+            world.Add(new Sphere(new Vec3f(-4f, 1f, 0), 1.0f, new Lambertian(new Vec3f(0.4f, 0.2f, 0.1f))));
+            world.Add(new Sphere(new Vec3f(4f, 1f, 0), 1.0f, new Metal(new Vec3f(0.7f, 0.6f, 0.5f), 0.0f)));
+
+            return world;
+        }
+
+        public static RayImage Render(int width, int height, int samples)
         {
             // As simple as possible code for now.
             var img = new RayImage();
             img.Width = width;
             img.Height = height;
             img.Pixels = new Rgb3f[width * height];
-            int samples = 100;
+            //int samples = 50;
 
-            var lookFrom = new Vec3f(3f, 3f, 3f);
+            var lookFrom = new Vec3f(5f, 5f, 5f);
             var lookAt = new Vec3f(0, 0, -1f);
             float dist_to_focus = (lookFrom - lookAt).GetLength();
             float aperture = 2.0f;
 
             var cam = new Camera(lookFrom, lookAt, Vec3f.UnitY,
-                20, (float)width / (float)height, aperture, dist_to_focus);
-
-            var world = new HitableList(
-                new Sphere(new Vec3f(0f, 0f, -1f), 0.5f, new Lambertian(new Vec3f(0.1f, 0.2f, 0.5f))),
-                new Sphere(new Vec3f(0, -100.5f, -1f), 100, new Lambertian(new Vec3f(0.8f, 0.8f, 0.0f))),
-                new Sphere(new Vec3f(1f, 0f, -1f), 0.5f, new Metal(new Vec3f(0.8f, 0.6f, 0.2f), 0.0f)),
-                new Sphere(new Vec3f(-1f, 0f, -1f), 0.5f, new Dielectric(1.5f)),
-                new Sphere(new Vec3f(-1f, 0f, -1f), -0.45f, new Dielectric(1.5f))
-                );
-            //float R = MathF.Cos(MathF.PI / 4);
-            ////var cam = new Camera(90, (float)width / (float)height);
-            //var cam = new Camera(new Vec3f(-2f, 2f, 1f), -Vec3f.UnitZ, 
-            //    Vec3f.UnitY, 20, (float)width / (float)height);
-
-            //var world = new HitableList(
-            //        new Sphere(new Vec3f(0, -100.5f, -1f), 100, new Lambertian(new Vec3f(0.8f, 0.8f, 0.0f))),
-            //        new Sphere(new Vec3f(-R, 0, -1), R, new Lambertian(Vec3f.UnitZ)),
-            //        new Sphere(new Vec3f( R, 0,-1), R, new Lambertian(Vec3f.UnitX))
-            //    );
+                40, (float)width / (float)height, aperture, dist_to_focus);
 
             var drand = new Random();
+
+            var world = RandomScene(drand);
+
+            //var world = new HitableList(
+            //    new Sphere(new Vec3f(0f, 0f, -1f), 0.5f, new Lambertian(new Vec3f(0.1f, 0.2f, 0.5f))),
+            //    new Sphere(new Vec3f(0, -100.5f, -1f), 100, new Lambertian(new Vec3f(0.8f, 0.8f, 0.0f))),
+            //    new Sphere(new Vec3f(1f, 0f, -1f), 0.5f, new Metal(new Vec3f(0.8f, 0.6f, 0.2f), 0.0f)),
+            //    new Sphere(new Vec3f(-1f, 0f, -1f), 0.5f, new Dielectric(1.5f)),
+            //    new Sphere(new Vec3f(-1f, 0f, -1f), -0.45f, new Dielectric(1.5f))
+            //    );
 
             int cur = 0;
 

@@ -31,13 +31,6 @@ namespace RayTracingIn1Weekend.Week1
             Horizontal = 2 * half_width * focus_distance * u;
             Vertical = 2 * half_height * focus_distance * v;
 
-
-            //Vec3f u, v, w;
-            //LowerLeftCorner = new Vec3f(-half_width, -half_height, -1.0f);
-            //LowerLeftCorner = Origin - half_width * u - half_height * v - w;
-
-            //Horizontal = 2 * half_width * u;
-            //Vertical = 2 * half_height * v;
         }
 
         public Ray GetRay(float s, float t, Random drand)
@@ -46,7 +39,6 @@ namespace RayTracingIn1Weekend.Week1
             Vec3f offset = u * rd.X + v * rd.Y;
             return new Ray(Origin + offset,
                 LowerLeftCorner + s * Horizontal + t * Vertical - Origin - offset);
-            //return new Ray(Origin, LowerLeftCorner + u * Horizontal + v * Vertical - Origin);
         }
 
         public Vec3f Random_in_unit_disk(Random drand)

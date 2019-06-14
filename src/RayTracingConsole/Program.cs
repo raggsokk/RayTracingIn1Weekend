@@ -17,9 +17,10 @@ namespace RayTracingConsole
             //TODO: Handle argument parsing before calling render etc.
 
             // parameters to given by arguments later.
-            var width = 200;
-            var height = 100;
+            var width = 320;
+            var height = 200;
             var output = "image.bmp";
+            var samples = 25;
             Func<RayImage, Stream, bool> encoder = (r, s) => r.WriteBmp(s);
 
 
@@ -28,7 +29,7 @@ namespace RayTracingConsole
             watch.Start();
 
             // render.
-            var img = RayTrace1.Render(width, height);
+            var img = RayTrace1.Render(width, height, samples);
 
             watch.Stop();
 

@@ -19,7 +19,7 @@ namespace RayTracingBenchmark
         [Benchmark(Description = "Week1")]
         public void RenderWeek1()
         {
-            var img = RayTrace1.Render(Width, Height);
+            var img = RayTrace1.Render(Width, Height, 10);
         }
     }
 }

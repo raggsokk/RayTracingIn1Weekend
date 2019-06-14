@@ -42,9 +42,6 @@ namespace RayTracingIn1Weekend.Week1
         {
             var len = GetLength();
             return this / len;
-
-            //float k = 1.0f / MathF.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
-            //return this * k;
         }
 
         public void Normalize()
@@ -92,7 +89,7 @@ namespace RayTracingIn1Weekend.Week1
 
         public static bool Refract(Vec3f v, Vec3f n, float ni_over_nt, out Vec3f refracted)
         {
-            Vec3f uv = v.GetNormal(); //TODO: Verify unit_vector.
+            Vec3f uv = v.GetNormal();
             float dt = Dot(uv, n);
             float discriminant = 1f - ni_over_nt * ni_over_nt * (1f - dt * dt);
             if (discriminant > 0)
