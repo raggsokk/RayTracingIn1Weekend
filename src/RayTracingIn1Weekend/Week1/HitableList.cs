@@ -9,7 +9,8 @@ namespace RayTracingIn1Weekend.Week1
 {
     public class HitableList : HitableBase
     {
-        public List<HitableBase> HitList;
+        protected  List<HitableBase> HitList;
+        protected HitableBase[] HitArray;
 
         public HitableList(params object[] hitable)
         {
@@ -22,12 +23,15 @@ namespace RayTracingIn1Weekend.Week1
 
         public override bool Hit(Ray r, float tMin, float tMax, ref HitRecord record)
         {
+            if (HitArray == null)
+                HitArray = HitList.ToArray();
+
             HitRecord tmpRecord = new HitRecord();
 
             bool flagHitAnything = false;
             float closest_so_far = tMax;
 
-            foreach(var h in HitList)
+            foreach(var h in HitArray)
             {
                 if(h.Hit(r, tMin, closest_so_far, ref tmpRecord))
                 {
@@ -38,6 +42,11 @@ namespace RayTracingIn1Weekend.Week1
             }
 
             return flagHitAnything;
+        }
+
+        public void Add(HitableBase hitable)
+        {
+            this.HitList.Add(hitable);
         }
     }
 }
