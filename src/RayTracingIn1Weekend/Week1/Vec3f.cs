@@ -4,6 +4,7 @@ using System.Text;
 
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace RayTracingIn1Weekend.Week1
 {
@@ -11,6 +12,8 @@ namespace RayTracingIn1Weekend.Week1
     [DebuggerDisplay("[{X}, {Y}, {Z}]")]
     public struct Vec3f
     {
+        private const MethodImplOptions METHODIMPL = MethodImplOptions.AggressiveInlining;
+
         public float X;
         public float Y;
         public float Z;
@@ -21,6 +24,7 @@ namespace RayTracingIn1Weekend.Week1
         public static readonly Vec3f UnitY = new Vec3f(0.0f, 1.0f, 0.0f);
         public static readonly Vec3f UnitZ = new Vec3f(0.0f, 0.0f, 1.0f);
 
+        [MethodImpl(METHODIMPL)]
         public Vec3f(float x, float y, float z)
         {
             this.X = x;
@@ -28,22 +32,26 @@ namespace RayTracingIn1Weekend.Week1
             this.Z = z;
         }
 
+        [MethodImpl(METHODIMPL)]
         public float GetLength()
         {
             return MathF.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
         }
 
+        [MethodImpl(METHODIMPL)]
         public float GetLengthSquared()
         {
             return this.X * this.X + this.Y * this.Y + this.Z * this.Z;
         }
 
+        [MethodImpl(METHODIMPL)]
         public Vec3f GetNormal()
         {
             var len = GetLength();
             return this / len;
         }
 
+        [MethodImpl(METHODIMPL)]
         public void Normalize()
         {
             float k = 1.0f / MathF.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
@@ -58,21 +66,25 @@ namespace RayTracingIn1Weekend.Week1
             Normalize();
         }
 
+        [MethodImpl(METHODIMPL)]
         public float Dot(Vec3f v)
         {
             return Dot(this, v);
         }
 
+        [MethodImpl(METHODIMPL)]
         public Vec3f Cross(Vec3f v)
         {
             return Cross(this, v);
         }
 
+        [MethodImpl(METHODIMPL)]
         public static float Dot(Vec3f l, Vec3f r)
         {
             return l.X * r.X + l.Y * r.Y + l.Z * r.Z;
         }
 
+        [MethodImpl(METHODIMPL)]
         public static Vec3f Cross(Vec3f l, Vec3f r)
         {
             return new Vec3f(
@@ -82,11 +94,13 @@ namespace RayTracingIn1Weekend.Week1
             );
         }
 
+        [MethodImpl(METHODIMPL)]
         public static Vec3f Reflect(Vec3f v, Vec3f n)
         {
             return v - 2 * Dot(v,n) * n;
         }
 
+        [MethodImpl(METHODIMPL)]
         public static bool Refract(Vec3f v, Vec3f n, float ni_over_nt, out Vec3f refracted)
         {
             Vec3f uv = v.GetNormal();
@@ -105,6 +119,7 @@ namespace RayTracingIn1Weekend.Week1
         }
 
         [DebuggerNonUserCode()]
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator -(Vec3f v)
         {
             return new Vec3f(
@@ -115,6 +130,7 @@ namespace RayTracingIn1Weekend.Week1
         }
 
         [DebuggerNonUserCode()]
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator +(Vec3f l, Vec3f r)
         {
             return new Vec3f(            
@@ -125,6 +141,7 @@ namespace RayTracingIn1Weekend.Week1
         }
 
         [DebuggerNonUserCode()]
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator -(Vec3f l, Vec3f r)
         {
             return new Vec3f(
@@ -135,6 +152,7 @@ namespace RayTracingIn1Weekend.Week1
         }
 
         [DebuggerNonUserCode()]
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator *(Vec3f l, Vec3f r)
         {
             return new Vec3f(
@@ -144,6 +162,7 @@ namespace RayTracingIn1Weekend.Week1
             );
         }
 
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator /(Vec3f l, Vec3f r)
         {
             return new Vec3f(
@@ -154,6 +173,7 @@ namespace RayTracingIn1Weekend.Week1
         }
 
         [DebuggerNonUserCode()]
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator +(Vec3f v, float f)
         {
             return new Vec3f(
@@ -164,6 +184,7 @@ namespace RayTracingIn1Weekend.Week1
         }
 
         [DebuggerNonUserCode()]
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator -(Vec3f v, float f)
         {
             return new Vec3f(
@@ -174,6 +195,7 @@ namespace RayTracingIn1Weekend.Week1
         }
 
         [DebuggerNonUserCode()]
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator *(Vec3f v, float f)
         {
             return new Vec3f(
@@ -183,6 +205,7 @@ namespace RayTracingIn1Weekend.Week1
             );
         }
 
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator /(Vec3f v, float f)
         {
             float k = 1.0f / f;
@@ -195,6 +218,7 @@ namespace RayTracingIn1Weekend.Week1
         }
 
         [DebuggerNonUserCode()]
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator +(float f, Vec3f v)
         {
             return new Vec3f(
@@ -205,6 +229,7 @@ namespace RayTracingIn1Weekend.Week1
         }
 
         [DebuggerNonUserCode()]
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator -(float f, Vec3f v)
         {
             return new Vec3f(
@@ -215,6 +240,7 @@ namespace RayTracingIn1Weekend.Week1
         }
 
         [DebuggerNonUserCode()]
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator *(float f, Vec3f v)
         {
             return new Vec3f(
@@ -224,6 +250,7 @@ namespace RayTracingIn1Weekend.Week1
             );
         }
 
+        [MethodImpl(METHODIMPL)]
         public static Vec3f operator /(float f, Vec3f v)
         {
             return new Vec3f(
@@ -233,16 +260,19 @@ namespace RayTracingIn1Weekend.Week1
             );
         }
 
+        [MethodImpl(METHODIMPL)]
         public static bool operator == (Vec3f l, Vec3f r)
         {
             return l.X == r.X && l.Y == r.Y && l.Z == r.Z;
         }
 
+        [MethodImpl(METHODIMPL)]
         public static bool operator !=(Vec3f l, Vec3f r)
         {
             return l.X != r.X || l.Y != r.Y || l.Z != r.Z;
         }
 
+        [MethodImpl(METHODIMPL)]
         public static explicit operator Rgb3f (Vec3f v)
         {
             return new Rgb3f(
@@ -252,6 +282,7 @@ namespace RayTracingIn1Weekend.Week1
             );
             //return MemoryMarshal.Cast<Vec3f, Rgb3f>()
         }
+
 
         public override bool Equals(object obj)
         {            

@@ -11,6 +11,8 @@ using RayTracingIn1Weekend.Week1;
 
 namespace RayTracingBenchmark
 {
+    [MemoryDiagnoser]
+    [ShortRunJob()]
     public class Benchmark
     {
         //public int Width = 200;

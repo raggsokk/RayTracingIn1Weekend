@@ -178,6 +178,7 @@ namespace RayTracingIn1Weekend.w1readstruct.Math
             return v - 2 * Dot(v, n) * n;
         }
 
+        [MethodImpl(METHODIMPL)]
         public static bool Refract(in Vec3f v, in Vec3f n, float ni_over_nt, out Vec3f refracted)
         {
             Vec3f uv = GetNormal(v);

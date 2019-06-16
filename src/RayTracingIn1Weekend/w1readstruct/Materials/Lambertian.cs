@@ -16,7 +16,7 @@ namespace RayTracingIn1Weekend.w1readstruct.Materials
             this.Albedo = a;
         }
 
-        public override bool Scatter(in Rayf r, in HitRecord rec, out Vec3f attenuation, out Rayf Scattered, Random drand)
+        public override bool Scatter(in Rayf r, HitRecord rec, out Vec3f attenuation, out Rayf Scattered, Random drand)
         {
             Vec3f target = rec.Point + rec.Normal + RayTrace1.RandomUnitSphere(drand);
             //Scattered = new Rayf(rec.Point, target - rec.Point);

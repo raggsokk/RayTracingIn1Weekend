@@ -110,12 +110,12 @@ namespace RayTracingConsole
             // render.
             RayImage img;
             //var img = RayTrace1.Render(options.Width, options.Height, options.Samples);
-            if(options.Parallel)
+            if (options.Parallel)
                 img = RayTrace1.RenderParallelFor(options.Width, options.Height, options.Samples);
             else
-                img = RayTrace1.Render(options.Width, options.Height, options.Samples);
-            //else // test code only.
-            //    img = RayTracingIn1Weekend.w1readstruct.RayTrace1.Render(options.Width, options.Height, options.Samples);
+                //img = RayTrace1.Render(options.Width, options.Height, options.Samples);
+                //else // test code only.
+                img = RayTracingIn1Weekend.w1readstruct.RayTrace1.Render(options.Width, options.Height, options.Samples);
 
             watch.Stop();
             

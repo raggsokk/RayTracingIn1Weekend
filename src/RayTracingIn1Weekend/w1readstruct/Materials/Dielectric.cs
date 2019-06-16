@@ -26,7 +26,7 @@ namespace RayTracingIn1Weekend.w1readstruct.Materials
             return r0 + (1f - r0) * MathF.Pow((1 - cosine), 5);
         }
 
-        public override bool Scatter(in Rayf r, in HitRecord rec, out Vec3f attenuation, out Rayf Scattered, Random drand)
+        public override bool Scatter(in Rayf r, HitRecord rec, out Vec3f attenuation, out Rayf Scattered, Random drand)
         {
             Vec3f outward_normal;
             Vec3f reflected = Reflect(r.Direction, rec.Normal);

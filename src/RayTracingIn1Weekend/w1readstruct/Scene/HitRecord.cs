@@ -12,13 +12,14 @@ namespace RayTracingIn1Weekend.w1readstruct.Materials
 {
 
     [DebuggerDisplay("P={Point}, N={Normal}, t={t}")]
-    public readonly struct HitRecord
+    public struct HitRecord
     {
-        public readonly float t;
-        public readonly Vec3f Point;
-        public readonly Vec3f Normal;
-        public readonly MaterialBase Material;
+        public float t;
+        public Vec3f Point;
+        public Vec3f Normal;
+        public MaterialBase Material;
 
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public HitRecord(float t, in Vec3f p, in Vec3f n, MaterialBase mat)
         {
             this.t = t;

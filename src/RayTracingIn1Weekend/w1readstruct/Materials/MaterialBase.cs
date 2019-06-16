@@ -10,6 +10,6 @@ namespace RayTracingIn1Weekend.w1readstruct.Materials
     // later we should try this with struct based.
     public abstract class MaterialBase
     {
-        public abstract bool Scatter(in Rayf r, in HitRecord rec, out Vec3f attenuation, out Rayf Scattered, Random drand);
+        public abstract bool Scatter(in Rayf r, HitRecord rec, out Vec3f attenuation, out Rayf Scattered, Random drand);
     }
 }

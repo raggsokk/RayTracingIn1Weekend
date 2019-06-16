@@ -22,7 +22,7 @@ namespace RayTracingIn1Weekend.w1readstruct.Materials
             this.Fuzz = fuzz < 1 ? fuzz : 1.0f;
         }
 
-        public override bool Scatter(in Rayf r, in HitRecord rec, out Vec3f attenuation, out Rayf Scattered, Random drand)
+        public override bool Scatter(in Rayf r, HitRecord rec, out Vec3f attenuation, out Rayf Scattered, Random drand)
         {
             Vec3f reflected = Reflect(GetNormal(r.Direction), rec.Normal);
             Scattered = new Rayf(rec.Point, reflected + Fuzz * RayTrace1.RandomUnitSphere(drand));
